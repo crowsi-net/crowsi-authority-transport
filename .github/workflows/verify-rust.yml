@@ -14,8 +14,9 @@ jobs:
         with:
           persist-credentials: false
       - name: Install pinned Rust
-        run: rustup toolchain install 1.97.1 --profile minimal --component clippy
-      - name: Verify synthetic contracts and observation boundaries
+        run: rustup toolchain install 1.97.1 --profile minimal --component clippy,rustfmt
+      - name: Verify mutual TLS, contracts, and service locator
         run: |
+          cargo +1.97.1 fmt --all --check
           cargo +1.97.1 test --locked --workspace --all-features
           cargo +1.97.1 clippy --locked --workspace --all-targets --all-features -- -D warnings
